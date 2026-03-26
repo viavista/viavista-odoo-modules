@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="script_script_view_list" model="ir.ui.view">
+        <field name="name">script.script.list</field>
+        <field name="model">script.script</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description" optional="show"/>
+                <field name="execution_count" string="Runs"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="script_script_view_form" model="ir.ui.view">
+        <field name="name">script.script.form</field>
+        <field name="model">script.script</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_run" type="object" string="Run Now" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_executions" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="execution_count" widget="statinfo" string="Executions"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="dry_run"/>
+                            <field name="timeout"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="What does this script do?"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Code" name="code">
+                            <field name="code" widget="code" options="{'mode': 'python'}" nolabel="1"/>
+                        </page>
+                        <page string="Parameters" name="params">
+                            <group>
+                                <field name="text_params" placeholder="Free-text parameters available as 'params' variable in script"/>
+                            </group>
+                            <separator string="File Parameters"/>
+                            <field name="file_param_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="name" placeholder="e.g. products-file"/>
+                                    <field name="attachment_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_script_script" model="ir.actions.act_window">
+        <field name="name">Scripts</field>
+        <field name="res_model">script.script</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

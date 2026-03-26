@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="vv_script_runner.ExecutionAutoRefresh">
+        <div t-if="state.running" class="alert alert-info mb-0 rounded-0 d-flex align-items-center"
+                role="status" aria-live="polite">
+            <i class="fa fa-spinner fa-spin me-2" aria-hidden="true"/>
+            <span>Script is running. Form will refresh automatically when complete.</span>
+        </div>
+    </t>
+</templates>

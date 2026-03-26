@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_script_section"
+        name="Scripts"
+        parent="base.menu_custom"
+        sequence="35"
+        groups="base.group_no_one"/>
+    <menuitem id="menu_scripts"
+        name="Scripts"
+        parent="menu_script_section"
+        action="action_script_script"
+        sequence="1"/>
+    <menuitem id="menu_executions"
+        name="Executions"
+        parent="menu_script_section"
+        action="action_script_execution"
+        sequence="2"/>
+</odoo>

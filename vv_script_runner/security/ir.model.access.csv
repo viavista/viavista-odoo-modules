@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_script_script,script.script.admin,model_script_script,base.group_system,1,1,1,1
+access_script_file_param,script.file.param.admin,model_script_file_param,base.group_system,1,1,1,1
+access_script_execution,script.execution.admin,model_script_execution,base.group_system,1,1,1,1
+access_script_run_wizard,script.run.wizard.admin,model_script_run_wizard,base.group_system,1,1,1,1
