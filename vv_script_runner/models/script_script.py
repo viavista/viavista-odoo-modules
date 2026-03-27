@@ -52,15 +52,14 @@ _SKIP_TRACK_MODELS = frozenset({
 def _install_dry_run_hooks():
     """Patch BaseModel.create/write/unlink to track changes during dry run.
 
-    Hooks are installed once globally but are no-ops without an active
-    thread-local tracker — safe for concurrent use.
+    Installed before each dry-run and removed after, so hooks are only
+    active while a dry-run is executing — zero overhead at other times.
     """
     from odoo.orm.models import BaseModel
     if getattr(BaseModel, '_vv_dry_run_hooks', False):
         return
 
     with _hooks_lock:
-        # Double-check after acquiring lock
         if getattr(BaseModel, '_vv_dry_run_hooks', False):
             return
 
@@ -112,6 +111,24 @@ def _install_dry_run_hooks():
         BaseModel._vv_orig_create = orig_create
         BaseModel._vv_orig_write = orig_write
         BaseModel._vv_orig_unlink = orig_unlink
+
+
+def _uninstall_dry_run_hooks():
+    """Remove dry-run hooks from BaseModel, restoring originals."""
+    from odoo.orm.models import BaseModel
+    if not getattr(BaseModel, '_vv_dry_run_hooks', False):
+        return
+
+    with _hooks_lock:
+        if not getattr(BaseModel, '_vv_dry_run_hooks', False):
+            return
+        BaseModel.create = BaseModel._vv_orig_create
+        BaseModel.write = BaseModel._vv_orig_write
+        BaseModel.unlink = BaseModel._vv_orig_unlink
+        del BaseModel._vv_dry_run_hooks
+        del BaseModel._vv_orig_create
+        del BaseModel._vv_orig_write
+        del BaseModel._vv_orig_unlink
 
 
 def _raise_timeout_in_thread(thread_ident):
@@ -308,11 +325,41 @@ class ScriptScript(models.Model):
         except Exception:
             _result('error', traceback.format_exc())
 
+    # Builtins allowed inside scripts. Excludes __import__, eval, exec,
+    # compile, open, breakpoint — scripts get pre-imported modules instead.
+    _SAFE_BUILTINS = {
+        k: v for k, v in __builtins__.items()
+        if k not in (
+            '__import__', 'eval', 'exec', 'compile',
+            'open', 'breakpoint', 'exit', 'quit',
+            'globals', 'locals', 'vars', 'dir',
+            'memoryview', '__build_class__',
+        )
+    } if isinstance(__builtins__, dict) else {
+        k: getattr(__builtins__, k) for k in (
+            'abs', 'all', 'any', 'bin', 'bool', 'bytes', 'callable',
+            'chr', 'classmethod', 'complex', 'delattr', 'dict',
+            'divmod', 'enumerate', 'filter', 'float', 'format',
+            'frozenset', 'getattr', 'hasattr', 'hash', 'hex', 'id',
+            'int', 'isinstance', 'issubclass', 'iter', 'len', 'list',
+            'map', 'max', 'min', 'next', 'object', 'oct', 'ord',
+            'pow', 'print', 'property', 'range', 'repr', 'reversed',
+            'round', 'set', 'setattr', 'slice', 'sorted',
+            'staticmethod', 'str', 'sum', 'super', 'tuple', 'type',
+            'zip', 'True', 'False', 'None',
+            'ValueError', 'TypeError', 'KeyError', 'IndexError',
+            'AttributeError', 'RuntimeError', 'StopIteration',
+            'Exception', 'BaseException', 'NotImplementedError',
+            'ZeroDivisionError', 'OSError', 'IOError',
+            'UnicodeDecodeError', 'UnicodeEncodeError',
+        ) if hasattr(__builtins__, k)
+    }
+
     @staticmethod
     def _build_exec_globals(env, custom_print, text_params, file_data):
         """Build the globals dict for exec()."""
         exec_globals = {
-            '__builtins__': __builtins__,
+            '__builtins__': ScriptScript._SAFE_BUILTINS,
             'env': env,
             'params': text_params,
             'files': file_data,
@@ -345,6 +392,7 @@ class ScriptScript(models.Model):
             finally:
                 tracker_data = _dry_run_tracker.data
                 _dry_run_tracker.data = None
+                _uninstall_dry_run_hooks()
                 stdout_capture.write(_format_dry_run_summary(tracker_data))
                 try:
                     cr.execute('ROLLBACK TO SAVEPOINT dry_run_sp')
