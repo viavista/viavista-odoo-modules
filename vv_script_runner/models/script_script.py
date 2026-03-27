@@ -279,7 +279,7 @@ class ScriptScript(models.Model):
                     dry_run,
                     timeout,
                 ),
-                daemon=False,
+                daemon=True,
             )
             thread.start()
 
