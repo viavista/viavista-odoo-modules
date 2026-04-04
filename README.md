@@ -13,14 +13,14 @@ Open-source Odoo 19 modules by [Viavista d.o.o.](https://viavista.ba)
 Clone this repository into your Odoo addons path:
 
 ```bash
-git clone https://github.com/viavista/vv-odoo-modules.git
+git clone https://github.com/viavista/viavista-odoo-modules.git
 ```
 
 Add the path to your Odoo configuration:
 
 ```ini
 [options]
-addons_path = /path/to/vv-odoo-modules,...
+addons_path = /path/to/viavista-odoo-modules,...
 ```
 
 Then install the desired module from **Settings > Technical > Modules**.
