@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Replace stock module's "On hand: X" with per-warehouse display when enabled -->
+    <record id="product_template_kanban_warehouse_stock" model="ir.ui.view">
+        <field name="name">product.template.kanban.warehouse.stock</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.product_template_kanban_stock_view"/>
+        <field name="arch" type="xml">
+            <!-- Replace the stock on-hand div with conditional display -->
+            <xpath expr="//div[@groups='stock.group_stock_user']" position="replace">
+                <div groups="stock.group_stock_user"
+                     t-if="record.show_on_hand_qty_status_button.raw_value">
+                    <t t-if="record.warehouse_stock_display.value">
+                        <strong>In stock:</strong>
+                        <div style="white-space: pre-line;"><field name="warehouse_stock_display"/></div>
+                    </t>
+                    <t t-else="">
+                        On hand: <field name="qty_available"/> <field name="uom_id" groups="uom.group_uom"/>
+                    </t>
+                </div>
+            </xpath>
+            <xpath expr="//kanban" position="inside">
+                <field name="warehouse_stock_display"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

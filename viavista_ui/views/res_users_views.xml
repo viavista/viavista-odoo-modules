@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- User preferences: stock per warehouse toggle -->
+    <record id="res_users_view_form_simple_modif" model="ir.ui.view">
+        <field name="name">res.users.preferences.viavista.ui</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_preferences']" position="inside">
+                <field name="show_stock_per_warehouse"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Admin user form: hidden menus tab -->
+    <record id="res_users_view_form_hidden_menus" model="ir.ui.view">
+        <field name="name">res.users.form.hidden.menus</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']" position="after">
+                <page string="UI" name="ui_settings">
+                    <group>
+                        <separator string="Hidden Menus"/>
+                        <p class="text-muted">
+                            Select menu items to hide for this user.
+                            Hiding a parent menu also hides all its children.
+                            Admin users always see all menus.
+                        </p>
+                    </group>
+                    <field name="hidden_menu_ids" nolabel="1">
+                        <list>
+                            <field name="complete_name" string="Menu"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
