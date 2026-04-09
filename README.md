@@ -6,7 +6,9 @@ Open-source Odoo 19 modules by [Viavista d.o.o.](https://viavista.ba)
 
 | Module | Summary |
 |--------|---------|
+| [viavista_monitoring_logs](viavista_monitoring_logs/) | Enhanced error tracking with RPC error capture, log retention, and backup agent integration |
 | [viavista_script_runner](viavista_script_runner/) | Run Python scripts from within Odoo with dry-run, timeout, change tracking, and full audit logging |
+| [viavista_ui](viavista_ui/) | Per-warehouse stock on product kanban and per-user hidden menus |
 
 ## Installation
 
