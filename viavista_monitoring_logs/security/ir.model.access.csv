@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_logging_monitoring_user,ir.logging monitoring user,base.model_ir_logging,group_monitoring_user,1,0,0,0
+access_ir_logging_monitoring_admin,ir.logging monitoring admin,base.model_ir_logging,group_monitoring_admin,1,0,0,1

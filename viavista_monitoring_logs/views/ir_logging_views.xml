@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List view — enhanced with color coding -->
+    <record id="ir_logging_view_list" model="ir.ui.view">
+        <field name="name">ir.logging.list.viavista.monitoring</field>
+        <field name="model">ir.logging</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="level in ('ERROR', 'CRITICAL')" decoration-warning="level == 'WARNING'" create="0" edit="0">
+                <field name="create_date" string="Time"/>
+                <field name="level"/>
+                <field name="name" string="Logger"/>
+                <field name="message" widget="char"/>
+                <field name="path" optional="hide"/>
+                <field name="func" optional="hide"/>
+                <field name="line" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view — full detail with traceback-like message -->
+    <record id="ir_logging_view_form" model="ir.ui.view">
+        <field name="name">ir.logging.form.viavista.monitoring</field>
+        <field name="model">ir.logging</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date" string="Time"/>
+                            <field name="level"/>
+                            <field name="name" string="Logger"/>
+                            <field name="dbname"/>
+                        </group>
+                        <group>
+                            <field name="path"/>
+                            <field name="func" string="Function"/>
+                            <field name="line"/>
+                            <field name="type"/>
+                        </group>
+                    </group>
+                    <separator string="Message"/>
+                    <field name="message" readonly="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view — filters and grouping -->
+    <record id="ir_logging_view_search" model="ir.ui.view">
+        <field name="name">ir.logging.search.viavista.monitoring</field>
+        <field name="model">ir.logging</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="message"/>
+                <field name="name" string="Logger"/>
+                <field name="path"/>
+                <field name="func"/>
+                <separator/>
+                <filter name="errors" string="Errors"
+                    domain="[('level', 'in', ['ERROR', 'CRITICAL'])]"/>
+                <filter name="warnings" string="Warnings"
+                    domain="[('level', '=', 'WARNING')]"/>
+                <separator/>
+                <filter name="server" string="Server"
+                    domain="[('type', '=', 'server')]"/>
+                <filter name="backup" string="Backup Agent"
+                    domain="[('name', '=like', 'viavista.agent%')]"/>
+                <separator/>
+                <filter name="today" string="Today"
+                    domain="[('create_date', '&gt;=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="exclude_noise" string="Exclude Noise"
+                    domain="[
+                        ('message', 'not ilike', 'ValidationError'),
+                        ('message', 'not ilike', 'AccessError'),
+                        ('message', 'not ilike', 'AccessDenied'),
+                        ('message', 'not ilike', 'UserError'),
+                        ('message', 'not ilike', 'MissingError'),
+                        ('message', 'not ilike', 'RedirectWarning'),
+                    ]"/>
+                <separator/>
+                <group>
+                    <filter name="group_level" string="Level" context="{'group_by': 'level'}"/>
+                    <filter name="group_logger" string="Logger" context="{'group_by': 'name'}"/>
+                    <filter name="group_path" string="File" context="{'group_by': 'path'}"/>
+                    <filter name="group_func" string="Function" context="{'group_by': 'func'}"/>
+                    <filter name="group_day" string="Day" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: Error Logs -->
+    <record id="ir_logging_action_errors" model="ir.actions.act_window">
+        <field name="name">Error Logs</field>
+        <field name="res_model">ir.logging</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="ir_logging_view_search"/>
+        <field name="domain">[('type', '=', 'server'), ('level', 'in', ['ERROR', 'CRITICAL', 'WARNING'])]</field>
+        <field name="context">{'search_default_errors': 1, 'search_default_exclude_noise': 1}</field>
+    </record>
+
+    <!-- Action: Backup Logs -->
+    <record id="ir_logging_action_backups" model="ir.actions.act_window">
+        <field name="name">Backup Logs</field>
+        <field name="res_model">ir.logging</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="ir_logging_view_search"/>
+        <field name="domain">[('name', '=like', 'viavista.agent%')]</field>
+    </record>
+
+</odoo>

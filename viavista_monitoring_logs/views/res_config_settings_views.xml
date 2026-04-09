@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="viavista_monitoring_logs_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.viavista.monitoring</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Monitoring" string="Monitoring" name="viavista_monitoring_logs"
+                    groups="viavista_monitoring_logs.group_monitoring_admin">
+                    <block title="Log Retention">
+                        <setting
+                            string="Delete After"
+                            help="Permanently delete log entries older than this many days.">
+                            <div class="text-muted">
+                                Delete logs older than
+                                <field name="viavista_monitoring_delete_after_days" class="o_input" style="width: 4em;"/>
+                                days
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Backup Agent">
+                        <setting
+                            string="Backup Agent Installed"
+                            help="Enable if the VOHA container is running alongside this Odoo instance.">
+                            <field name="viavista_monitoring_agent_enabled"/>
+                            <div invisible="not viavista_monitoring_agent_enabled" class="mt8">
+                                <label for="viavista_monitoring_agent_status_path"/>
+                                <field name="viavista_monitoring_agent_status_path"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
