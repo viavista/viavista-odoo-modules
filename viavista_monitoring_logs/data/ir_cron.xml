@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_viavista_monitoring_retention" model="ir.cron">
+            <field name="name">Monitoring Logs: Retention cleanup</field>
+            <field name="model_id" ref="base.model_ir_logging"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_retention()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+
+        <record id="ir_cron_viavista_monitoring_agent_status" model="ir.cron">
+            <field name="name">Monitoring Logs: Read agent status</field>
+            <field name="model_id" ref="base.model_ir_logging"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_read_agent_status()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+        </record>
+    </data>
+</odoo>
