@@ -6,7 +6,7 @@ labels: bug
 
 ## Module
 
-<!-- Which module? e.g. vv_script_runner -->
+<!-- Which module? e.g. viavista_script_runner -->
 
 ## Odoo version
 
