@@ -56,11 +56,11 @@ def _install_dry_run_hooks():
     active while a dry-run is executing — zero overhead at other times.
     """
     from odoo.orm.models import BaseModel
-    if getattr(BaseModel, '_vv_dry_run_hooks', False):
+    if getattr(BaseModel, '_viavista_dry_run_hooks', False):
         return
 
     with _hooks_lock:
-        if getattr(BaseModel, '_vv_dry_run_hooks', False):
+        if getattr(BaseModel, '_viavista_dry_run_hooks', False):
             return
 
         orig_create = BaseModel.create
@@ -107,28 +107,28 @@ def _install_dry_run_hooks():
         BaseModel.create = tracked_create
         BaseModel.write = tracked_write
         BaseModel.unlink = tracked_unlink
-        BaseModel._vv_dry_run_hooks = True
-        BaseModel._vv_orig_create = orig_create
-        BaseModel._vv_orig_write = orig_write
-        BaseModel._vv_orig_unlink = orig_unlink
+        BaseModel._viavista_dry_run_hooks = True
+        BaseModel._viavista_orig_create = orig_create
+        BaseModel._viavista_orig_write = orig_write
+        BaseModel._viavista_orig_unlink = orig_unlink
 
 
 def _uninstall_dry_run_hooks():
     """Remove dry-run hooks from BaseModel, restoring originals."""
     from odoo.orm.models import BaseModel
-    if not getattr(BaseModel, '_vv_dry_run_hooks', False):
+    if not getattr(BaseModel, '_viavista_dry_run_hooks', False):
         return
 
     with _hooks_lock:
-        if not getattr(BaseModel, '_vv_dry_run_hooks', False):
+        if not getattr(BaseModel, '_viavista_dry_run_hooks', False):
             return
-        BaseModel.create = BaseModel._vv_orig_create
-        BaseModel.write = BaseModel._vv_orig_write
-        BaseModel.unlink = BaseModel._vv_orig_unlink
-        del BaseModel._vv_dry_run_hooks
-        del BaseModel._vv_orig_create
-        del BaseModel._vv_orig_write
-        del BaseModel._vv_orig_unlink
+        BaseModel.create = BaseModel._viavista_orig_create
+        BaseModel.write = BaseModel._viavista_orig_write
+        BaseModel.unlink = BaseModel._viavista_orig_unlink
+        del BaseModel._viavista_dry_run_hooks
+        del BaseModel._viavista_orig_create
+        del BaseModel._viavista_orig_write
+        del BaseModel._viavista_orig_unlink
 
 
 def _raise_timeout_in_thread(thread_ident):

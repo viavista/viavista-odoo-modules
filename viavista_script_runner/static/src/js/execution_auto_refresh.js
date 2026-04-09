@@ -5,7 +5,7 @@ import { useService } from "@web/core/utils/hooks";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 
 class ExecutionAutoRefresh extends Component {
-    static template = "vv_script_runner.ExecutionAutoRefresh";
+    static template = "viavista_script_runner.ExecutionAutoRefresh";
     static props = { ...standardWidgetProps };
 
     setup() {

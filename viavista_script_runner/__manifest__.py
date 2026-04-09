@@ -16,8 +16,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'vv_script_runner/static/src/js/execution_auto_refresh.js',
-            'vv_script_runner/static/src/xml/execution_auto_refresh.xml',
+            'viavista_script_runner/static/src/js/execution_auto_refresh.js',
+            'viavista_script_runner/static/src/xml/execution_auto_refresh.xml',
         ],
     },
     'uninstall_hook': '_uninstall_hook',
