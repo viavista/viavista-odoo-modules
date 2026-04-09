@@ -6,7 +6,7 @@ Open-source Odoo 19 modules by [Viavista d.o.o.](https://viavista.ba)
 
 | Module | Summary |
 |--------|---------|
-| [vv_script_runner](vv_script_runner/) | Run Python scripts from within Odoo with dry-run, timeout, change tracking, and full audit logging |
+| [viavista_script_runner](viavista_script_runner/) | Run Python scripts from within Odoo with dry-run, timeout, change tracking, and full audit logging |
 
 ## Installation
 

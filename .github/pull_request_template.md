@@ -4,7 +4,7 @@
 
 ## Module(s) affected
 
-- [ ] vv_script_runner
+- [ ] viavista_script_runner
 - [ ] Other: ___
 
 ## Checklist
