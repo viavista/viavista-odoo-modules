@@ -1,0 +1,75 @@
+// Viavista Blog Cover Improvements
+// ============================================================================
+
+// 1. Responsive cover display (aspect-ratio)
+// --------------------------------------------------------------------------
+// Odoo's default blog cover uses background-size: cover on containers with
+// fixed viewport-height or small min-height values. Because the container's
+// aspect ratio changes drastically between desktop and mobile, the image gets
+// cropped differently at each breakpoint.
+//
+// Fix: use CSS aspect-ratio so the container maintains consistent proportions
+// regardless of viewport width. Only applied when a cover image is set.
+
+.o_wblog_post_page_cover.o_record_has_cover {
+
+    // Regular cover variant
+    &.o_wblog_post_page_cover_regular {
+        &.cover_auto {
+            min-height: unset !important;
+            padding: 0 !important;
+            aspect-ratio: 21 / 9;
+        }
+
+        &.o_half_screen_height {
+            min-height: unset !important;
+            aspect-ratio: 21 / 9;
+        }
+
+        &.o_full_screen_height {
+            min-height: unset !important;
+            aspect-ratio: 16 / 9;
+        }
+    }
+
+    // Full-width cover variant (title overlaid on image)
+    &:not(.o_wblog_post_page_cover_regular) {
+        &.cover_auto {
+            min-height: unset !important;
+            padding: 0 !important;
+            aspect-ratio: 21 / 9;
+        }
+
+        &.o_half_screen_height {
+            min-height: unset !important;
+            aspect-ratio: 21 / 9;
+            max-height: 55vh;
+        }
+
+        &.o_full_screen_height {
+            min-height: unset !important;
+            aspect-ratio: 16 / 9;
+            max-height: 100vh;
+            max-height: 100svh;
+        }
+    }
+}
+
+// 2. Per-device cover visibility
+// --------------------------------------------------------------------------
+// Hide the cover on specific devices. Uses compound selectors to override
+// the d-flex on the container. The :not(.o_snippet_override_invisible) guard
+// ensures the editor can still show hidden covers at reduced opacity (standard
+// Odoo invisible-element behavior).
+
+.o_vv_cover_hidden_desktop:not(.o_snippet_override_invisible) {
+    @include media-breakpoint-up(lg) {
+        display: none !important;
+    }
+}
+
+.o_vv_cover_hidden_mobile:not(.o_snippet_override_invisible) {
+    @include media-breakpoint-down(lg) {
+        display: none !important;
+    }
+}

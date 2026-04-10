@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-inherit="website.CoverPropertiesOption" t-inherit-mode="extension">
+    <xpath expr="//BuilderRow[@label.translate='Size']" position="after">
+        <BuilderRow label.translate="Visibility" t-if="this.state.useSize">
+            <BuilderSelect>
+                <BuilderSelectItem action="'toggleCoverVisibility'" actionParam="''">Visible</BuilderSelectItem>
+                <BuilderSelectItem action="'toggleCoverVisibility'" actionParam="'no_desktop'">Desktop hidden</BuilderSelectItem>
+                <BuilderSelectItem action="'toggleCoverVisibility'" actionParam="'no_mobile'">Mobile hidden</BuilderSelectItem>
+                <BuilderSelectItem action="'toggleCoverVisibility'" actionParam="'hidden'">Hidden</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+    </xpath>
+</t>
+
+</templates>
