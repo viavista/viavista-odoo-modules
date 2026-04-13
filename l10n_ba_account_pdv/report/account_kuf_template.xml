@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="action_report_kuf" model="ir.actions.report">
+        <field name="name">KUF - Knjiga ulaznih faktura</field>
+        <field name="model">account.kuf.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_ba_account_pdv.report_kuf</field>
+        <field name="report_file">l10n_ba_account_pdv.report_kuf</field>
+        <field name="paperformat_id" ref="base.paperformat_euro_landscape"/>
+    </record>
+
+    <template id="report_kuf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center">Knjiga Ulaznih Faktura - KUF</h3>
+                        <h5 class="text-center">Obrazac KUF</h5>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Porezni obveznik:</strong>
+                                <span t-field="doc.company_id.partner_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Period od:</strong>
+                                <span t-field="doc.date_from"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>do:</strong>
+                                <span t-field="doc.date_to"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered" style="font-size: 9px;">
+                            <thead>
+                                <tr class="text-center">
+                                    <th rowspan="2" style="width: 3%;">R.br.</th>
+                                    <th rowspan="2" style="width: 8%;">Broj fakture</th>
+                                    <th rowspan="2" style="width: 6%;">Datum</th>
+                                    <th rowspan="2" style="width: 16%;">Naziv dobavljača</th>
+                                    <th rowspan="2" style="width: 8%;">JIB</th>
+                                    <th rowspan="2" style="width: 7%;">Bez PDV</th>
+                                    <th rowspan="2" style="width: 7%;">Sa PDV</th>
+                                    <th rowspan="2" style="width: 6%;">Paušal</th>
+                                    <th colspan="3">Ulazni porez</th>
+                                    <th rowspan="2" style="width: 7%;">Nabavka od neobv.</th>
+                                    <th rowspan="2" style="width: 6%;">Naknada</th>
+                                    <th rowspan="2" style="width: 6%;">5% čl.85</th>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Ukupno</th>
+                                    <th>Odbitni</th>
+                                    <th>Neodbitni</th>
+                                </tr>
+                                <tr class="text-center" style="font-size: 8px;">
+                                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                                    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                                    <th>11</th><th>12</th><th>13</th><th>14</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td class="text-center" t-out="line.sequence"/>
+                                        <td t-out="line.invoice_number"/>
+                                        <td class="text-center" t-field="line.invoice_date"/>
+                                        <td t-out="line.partner_name"/>
+                                        <td t-out="line.partner_jib"/>
+                                        <td class="text-end" t-out="'%.2f' % line.base_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.total_with_pdv"/>
+                                        <td class="text-end" t-out="'%.2f' % line.flat_rate_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.total_input_pdv"/>
+                                        <td class="text-end" t-out="'%.2f' % line.deductible_pdv"/>
+                                        <td class="text-end" t-out="'%.2f' % line.non_deductible_pdv"/>
+                                        <td class="text-end" t-out="'%.2f' % line.non_pdv_purchase"/>
+                                        <td class="text-end" t-out="'%.2f' % line.compensation_value"/>
+                                        <td class="text-end" t-out="'%.2f' % line.farmer_rate"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="5" class="text-end">UKUPNO ZA MJESEC:</td>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('base_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('total_with_pdv'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('flat_rate_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('total_input_pdv'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('deductible_pdv'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('non_deductible_pdv'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('non_pdv_purchase'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('compensation_value'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('farmer_rate'))"/>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

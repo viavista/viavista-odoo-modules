@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_dpdv_report_view_form" model="ir.ui.view">
+        <field name="name">account.dpdv.report.form</field>
+        <field name="model">account.dpdv.report</field>
+        <field name="arch" type="xml">
+            <form string="Obrazac D PDV - Dodatak uz PDV prijavu">
+                <header>
+                    <button
+                        name="action_generate"
+                        string="Generiši"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_print_pdf"
+                        string="Štampaj PDF"
+                        type="object"
+                        invisible="not generated"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="company_name" readonly="1"/>
+                        <field name="company_jib" readonly="1"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="II. Isporuke i PDV na izlaze">
+                        <group>
+                            <field name="out_1_base"/>
+                            <field name="out_2_base"/>
+                            <field name="out_3_base"/>
+                            <field name="out_4_base"/>
+                            <field name="out_5_base"/>
+                        </group>
+                        <group string="Sa obračunom PDV-a">
+                            <label for="out_6_base" string="6. Promet nekretnina"/>
+                            <div class="o_row">
+                                <field name="out_6_base" string="Osnovica"/>
+                                <field name="out_6_pdv" string="PDV"/>
+                            </div>
+                            <field name="out_7_pdv"/>
+                            <label for="out_8_base" string="8. PDV vraćen stranim državljanima"/>
+                            <div class="o_row">
+                                <field name="out_8_base" string="Osnovica"/>
+                                <field name="out_8_pdv" string="PDV"/>
+                            </div>
+                            <label for="out_9_base" string="9. Izdate KO kupcima"/>
+                            <div class="o_row">
+                                <field name="out_9_base" string="Osnovica"/>
+                                <field name="out_9_pdv" string="PDV"/>
+                            </div>
+                            <field name="out_10_pdv"/>
+                        </group>
+                    </page>
+                    <page string="III. Nabavke i PDV na ulaze">
+                        <group>
+                            <field name="in_1_base"/>
+                            <label for="in_2_base" string="2. Nabavka nekretnina"/>
+                            <div class="o_row">
+                                <field name="in_2_base" string="Osnovica"/>
+                                <field name="in_2_pdv" string="PDV"/>
+                            </div>
+                            <label for="in_3_base" string="3. Oprema - domaća"/>
+                            <div class="o_row">
+                                <field name="in_3_base" string="Osnovica"/>
+                                <field name="in_3_pdv" string="PDV"/>
+                            </div>
+                            <label for="in_4_base" string="4. Oprema - uvoz"/>
+                            <div class="o_row">
+                                <field name="in_4_base" string="Osnovica"/>
+                                <field name="in_4_pdv" string="PDV"/>
+                            </div>
+                            <label for="in_5_base" string="5. Proporcionalni odbitak"/>
+                            <div class="o_row">
+                                <field name="in_5_base" string="Osnovica"/>
+                                <field name="in_5_pdv" string="PDV"/>
+                            </div>
+                            <label for="in_6_base" string="6. Usluge iz inostranstva"/>
+                            <div class="o_row">
+                                <field name="in_6_base" string="Osnovica"/>
+                                <field name="in_6_pdv" string="PDV"/>
+                            </div>
+                            <field name="in_7_pdv"/>
+                            <label for="in_8_base" string="8. Primljene KO"/>
+                            <div class="o_row">
+                                <field name="in_8_base" string="Osnovica"/>
+                                <field name="in_8_pdv" string="PDV"/>
+                            </div>
+                            <field name="in_9_pdv"/>
+                        </group>
+                    </page>
+                    <page string="IV. Zalihe">
+                        <group>
+                            <field name="stock_value"/>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_dpdv_report" model="ir.actions.act_window">
+        <field name="name">Obrazac D PDV</field>
+        <field name="res_model">account.dpdv.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_kuf_report_view_form" model="ir.ui.view">
+        <field name="name">account.kuf.report.form</field>
+        <field name="model">account.kuf.report</field>
+        <field name="arch" type="xml">
+            <form string="KUF - Knjiga ulaznih faktura">
+                <header>
+                    <button
+                        name="action_generate"
+                        string="Generiši"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_print_pdf"
+                        string="Štampaj PDF"
+                        type="object"
+                        invisible="not line_ids"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+                <notebook invisible="not line_ids">
+                    <page string="KUF stavke">
+                        <field name="line_ids" readonly="1">
+                            <list>
+                                <field name="sequence" string="R.br."/>
+                                <field name="invoice_number" string="Broj fakture"/>
+                                <field name="invoice_date" string="Datum"/>
+                                <field name="partner_name" string="Dobavljač"/>
+                                <field name="partner_jib" string="JIB"/>
+                                <field name="base_amount" string="Bez PDV" sum="Ukupno"/>
+                                <field name="total_with_pdv" string="Sa PDV" sum="Ukupno"/>
+                                <field name="total_input_pdv" string="Ulazni PDV" sum="Ukupno"/>
+                                <field name="deductible_pdv" string="Odbitni" sum="Ukupno"/>
+                                <field name="non_deductible_pdv" string="Neodbitni" sum="Ukupno" optional="show"/>
+                                <field name="non_pdv_purchase" string="Bez obv." sum="Ukupno" optional="hide"/>
+                                <field name="flat_rate_amount" string="Paušal" sum="Ukupno" optional="hide"/>
+                                <field name="farmer_rate" string="5% polj." sum="Ukupno" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_kuf_report" model="ir.actions.act_window">
+        <field name="name">KUF - Knjiga ulaznih faktura</field>
+        <field name="res_model">account.kuf.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

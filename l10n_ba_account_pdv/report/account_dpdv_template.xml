@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="action_report_dpdv" model="ir.actions.report">
+        <field name="name">Obrazac D PDV</field>
+        <field name="model">account.dpdv.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_ba_account_pdv.report_dpdv</field>
+        <field name="report_file">l10n_ba_account_pdv.report_dpdv</field>
+    </record>
+
+    <template id="report_dpdv">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 10px;">
+                    <div style="text-align: right;">Obrazac D PDV</div>
+                    <h3 style="text-align: center;">DODATAK UZ PDV PRIJAVU</h3>
+
+                    <!-- I. Header -->
+                    <div style="font-weight: bold; margin: 10px 0;">
+                        I. PODACI O POREZNOM OBVEZNIKU
+                    </div>
+                    <table style="width: 100%; margin-bottom: 10px;">
+                        <tr>
+                            <td>1. Naziv: <span t-out="doc.company_name"/></td>
+                            <td>2. Identifikacioni broj: <span t-out="doc.company_jib"/></td>
+                        </tr>
+                        <tr>
+                            <td>3. Adresa: <span t-out="doc.company_address"/></td>
+                            <td>5. Period: <span t-field="doc.date_from"/> — <span t-field="doc.date_to"/></td>
+                        </tr>
+                    </table>
+
+                    <!-- II. Isporuke -->
+                    <div style="font-weight: bold; margin: 10px 0;">
+                        II. ISPORUKE I PDV OBRAČUNAT NA IZLAZE
+                    </div>
+                    <table class="table table-sm table-bordered" style="font-size: 9px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">R.br.</th>
+                                <th>(1) Opis</th>
+                                <th style="width: 15%;">(2) Iznos bez PDV</th>
+                                <th style="width: 15%;">(3) PDV na izlaze</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1.</td>
+                                <td>Promet koji ne podliježe oporezivanju u BiH (čl. 3, čl. 15)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_1_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>Isporuke EUFOR-u i štabu NATO</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_2_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>Oslobođene isporuke - IPA fond (čl. 29 st. 2)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_3_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>4.</td>
+                                <td>Usluge vezane za uvoz oslobođene PDV-a (čl. 26 st. 7)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_4_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>Prenos cjelokupne ili dijela imovine (čl. 7 st. 2)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_5_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>Promet nekretnina - prvi prenos (čl. 25 st. 1 tač. 2)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_6_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.out_6_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>PDV na usluge stranih lica (čl. 13 st. 1 tač. 3)</td>
+                                <td class="text-center">—</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_7_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>PDV vraćen stranim državljanima (PDV-SL-2, čl. 54)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_8_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.out_8_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>Izdate KO kojima se odobravaju kupci u zemlji</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_9_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.out_9_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>10.</td>
+                                <td>Neplaćeni PDV po posebnoj šemi (čl. 41 i 66)</td>
+                                <td class="text-center">—</td>
+                                <td class="text-end" t-out="'%.2f' % doc.out_10_pdv"/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- III. Nabavke -->
+                    <div style="font-weight: bold; margin: 10px 0;">
+                        III. NABAVKE I PDV OBRAČUNAT NA ULAZE
+                    </div>
+                    <table class="table table-sm table-bordered" style="font-size: 9px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">R.br.</th>
+                                <th>(1) Opis</th>
+                                <th style="width: 15%;">(2) Iznos bez PDV</th>
+                                <th style="width: 15%;">(3) PDV na ulaze</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1.</td>
+                                <td>Nabavka cjelokupne ili dijela imovine (čl. 7 st. 2)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_1_base"/>
+                                <td class="text-center">—</td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>Nabavka nekretnina sa pravom na odbitak PDV</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_2_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_2_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>Nabavka opreme sa pravom na odbitak PDV u BiH</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_3_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_3_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>4.</td>
+                                <td>Nabavka opreme sa pravom na odbitak PDV - uvoz</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_4_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_4_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>5.</td>
+                                <td>Iznos proporcionalnog odbitka (čl. 37)</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_5_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_5_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>6.</td>
+                                <td>Usluge primljene iz inostranstva s pravom na odbitak</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_6_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_6_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>7.</td>
+                                <td>PDV po posebnoj šemi u građevinarstvu (čl. 42)</td>
+                                <td class="text-center">—</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_7_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>8.</td>
+                                <td>Primljene KO od domaćih dobavljača</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_8_base"/>
+                                <td class="text-end" t-out="'%.2f' % doc.in_8_pdv"/>
+                            </tr>
+                            <tr>
+                                <td>9.</td>
+                                <td>Ispravka odbitka ulaznog PDV-a (čl. 36 st. 2)</td>
+                                <td class="text-center">—</td>
+                                <td class="text-end" t-out="'%.2f' % doc.in_9_pdv"/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- IV. Zalihe -->
+                    <div style="font-weight: bold; margin: 10px 0;">IV. PODACI O ZALIHAMA</div>
+                    <table class="table table-sm table-bordered" style="font-size: 9px; width: 70%;">
+                        <tr>
+                            <td>1.</td>
+                            <td>Stanje zaliha robe, sirovina i gotovih proizvoda na kraju perioda (bez PDV)</td>
+                            <td class="text-end" style="width: 20%;" t-out="'%.2f' % doc.stock_value"/>
+                            <td class="text-center" style="width: 10%;">—</td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <div style="margin-top: 20px;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>Mjesto: _______________</td>
+                                <td>Datum: _______________</td>
+                                <td>Odgovorno lice: _______________</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

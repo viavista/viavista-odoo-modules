@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="action_report_kif" model="ir.actions.report">
+        <field name="name">KIF - Knjiga izlaznih faktura</field>
+        <field name="model">account.kif.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_ba_account_pdv.report_kif</field>
+        <field name="report_file">l10n_ba_account_pdv.report_kif</field>
+        <field name="paperformat_id" ref="base.paperformat_euro_landscape"/>
+    </record>
+
+    <template id="report_kif">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center">Knjiga Izlaznih Faktura - KIF</h3>
+                        <h5 class="text-center">Obrazac KIF</h5>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Porezni obveznik:</strong>
+                                <span t-field="doc.company_id.partner_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Period od:</strong>
+                                <span t-field="doc.date_from"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>do:</strong>
+                                <span t-field="doc.date_to"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered" style="font-size: 9px;">
+                            <thead>
+                                <tr class="text-center">
+                                    <th rowspan="2" style="width: 3%;">R.br.</th>
+                                    <th rowspan="2" style="width: 7%;">Broj fakture</th>
+                                    <th rowspan="2" style="width: 6%;">Datum</th>
+                                    <th rowspan="2" style="width: 14%;">Naziv kupca</th>
+                                    <th rowspan="2" style="width: 8%;">JIB/PIB</th>
+                                    <th rowspan="2" style="width: 6%;">Interni</th>
+                                    <th rowspan="2" style="width: 7%;">Bez PDV</th>
+                                    <th rowspan="2" style="width: 6%;">Izvoz</th>
+                                    <th rowspan="2" style="width: 6%;">Oslob.</th>
+                                    <th rowspan="2" style="width: 6%;">PDV</th>
+                                    <th colspan="2">Kupci por. obv.</th>
+                                    <th colspan="4">Kupci koji nisu por. obv.</th>
+                                </tr>
+                                <tr class="text-center">
+                                    <th>Osnov.</th>
+                                    <th>PDV</th>
+                                    <th>FBiH</th>
+                                    <th>RS</th>
+                                    <th>Brčko</th>
+                                    <th>PDV</th>
+                                </tr>
+                                <tr class="text-center" style="font-size: 8px;">
+                                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                                    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                                    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td class="text-center" t-out="line.sequence"/>
+                                        <td t-out="line.invoice_number"/>
+                                        <td class="text-center" t-field="line.invoice_date"/>
+                                        <td t-out="line.partner_name"/>
+                                        <td t-out="line.partner_jib"/>
+                                        <td class="text-end" t-out="'%.2f' % line.internal_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.base_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.export_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.exempt_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.pdv_amount"/>
+                                        <td class="text-end" t-out="'%.2f' % line.registered_base"/>
+                                        <td class="text-end" t-out="'%.2f' % line.registered_pdv"/>
+                                        <td class="text-end" t-out="'%.2f' % line.fc_fbih"/>
+                                        <td class="text-end" t-out="'%.2f' % line.fc_rs"/>
+                                        <td class="text-end" t-out="'%.2f' % line.fc_brcko"/>
+                                        <td class="text-end" t-out="'%.2f' % line.fc_pdv"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="5" class="text-end">UKUPNO ZA MJESEC:</td>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('internal_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('base_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('export_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('exempt_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('pdv_amount'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('registered_base'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('registered_pdv'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('fc_fbih'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('fc_rs'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('fc_brcko'))"/>
+                                    <td class="text-end" t-out="'%.2f' % sum(doc.line_ids.mapped('fc_pdv'))"/>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

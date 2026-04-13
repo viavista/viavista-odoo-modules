@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_kif_report_view_form" model="ir.ui.view">
+        <field name="name">account.kif.report.form</field>
+        <field name="model">account.kif.report</field>
+        <field name="arch" type="xml">
+            <form string="KIF - Knjiga izlaznih faktura">
+                <header>
+                    <button
+                        name="action_generate"
+                        string="Generiši"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_print_pdf"
+                        string="Štampaj PDF"
+                        type="object"
+                        invisible="not line_ids"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+                <notebook invisible="not line_ids">
+                    <page string="KIF stavke">
+                        <field name="line_ids" readonly="1">
+                            <list>
+                                <field name="sequence" string="R.br."/>
+                                <field name="invoice_number" string="Broj fakture"/>
+                                <field name="invoice_date" string="Datum"/>
+                                <field name="partner_name" string="Kupac"/>
+                                <field name="partner_jib" string="JIB/PIB"/>
+                                <field name="base_amount" string="Osnovica" sum="Ukupno"/>
+                                <field name="export_amount" string="Izvoz" sum="Ukupno"/>
+                                <field name="exempt_amount" string="Oslobođeno" sum="Ukupno"/>
+                                <field name="pdv_amount" string="PDV" sum="Ukupno"/>
+                                <field name="registered_base" string="Obv. osnov." sum="Ukupno" optional="show"/>
+                                <field name="registered_pdv" string="Obv. PDV" sum="Ukupno" optional="show"/>
+                                <field name="fc_fbih" string="FBiH" sum="Ukupno" optional="hide"/>
+                                <field name="fc_rs" string="RS" sum="Ukupno" optional="hide"/>
+                                <field name="fc_brcko" string="Brčko" sum="Ukupno" optional="hide"/>
+                                <field name="fc_pdv" string="KP PDV" sum="Ukupno" optional="hide"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_kif_report" model="ir.actions.act_window">
+        <field name="name">KIF - Knjiga izlaznih faktura</field>
+        <field name="res_model">account.kif.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

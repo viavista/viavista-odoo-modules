@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <menuitem
+        id="menu_pdv_root"
+        name="PDV izvještaji"
+        parent="l10n_ba.account_reports_ba_statements_menu"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_pdv_prijava"
+        name="Obrazac P PDV"
+        parent="menu_pdv_root"
+        action="action_account_pdv_report"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_dpdv"
+        name="Obrazac D PDV"
+        parent="menu_pdv_root"
+        action="action_account_dpdv_report"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_kif"
+        name="KIF - Knjiga izlaznih faktura"
+        parent="menu_pdv_root"
+        action="action_account_kif_report"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_kuf"
+        name="KUF - Knjiga ulaznih faktura"
+        parent="menu_pdv_root"
+        action="action_account_kuf_report"
+        sequence="20"
+    />
+
+</odoo>

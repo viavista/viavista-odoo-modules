@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kif_report_accountant,account.kif.report accountant,model_account_kif_report,account.group_account_user,1,1,1,1
+access_kif_line_accountant,account.kif.line accountant,model_account_kif_line,account.group_account_user,1,1,1,1
+access_kuf_report_accountant,account.kuf.report accountant,model_account_kuf_report,account.group_account_user,1,1,1,1
+access_kuf_line_accountant,account.kuf.line accountant,model_account_kuf_line,account.group_account_user,1,1,1,1
+access_pdv_report_accountant,account.pdv.report accountant,model_account_pdv_report,account.group_account_user,1,1,1,1
+access_dpdv_report_accountant,account.dpdv.report accountant,model_account_dpdv_report,account.group_account_user,1,1,1,1

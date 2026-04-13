@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Viavista d.o.o.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_pdv_report_view_form" model="ir.ui.view">
+        <field name="name">account.pdv.report.form</field>
+        <field name="model">account.pdv.report</field>
+        <field name="arch" type="xml">
+            <form string="Obrazac P PDV - PDV prijava">
+                <header>
+                    <button
+                        name="action_generate"
+                        string="Generiši"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_print_pdf"
+                        string="Štampaj PDF"
+                        type="object"
+                        invisible="not generated"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="company_name" readonly="1"/>
+                        <field name="company_jib" readonly="1"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="I. Isporuke i nabavke (bez PDV-a)">
+                        <group>
+                            <group string="IZLAZI">
+                                <field name="field_11"/>
+                                <field name="field_12"/>
+                                <field name="field_13"/>
+                            </group>
+                            <group string="ULAZI">
+                                <field name="field_21"/>
+                                <field name="field_22"/>
+                                <field name="field_23"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="II. Izlazni i ulazni PDV">
+                        <group>
+                            <group string="Izlazni PDV">
+                                <field name="field_51"/>
+                            </group>
+                            <group string="Ulazni PDV">
+                                <field name="field_41"/>
+                                <field name="field_42"/>
+                                <field name="field_43"/>
+                                <field name="field_61" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="field_71" readonly="1"/>
+                            <field name="field_80"/>
+                        </group>
+                    </page>
+                    <page string="III. Krajnja potrošnja">
+                        <group>
+                            <field name="field_32"/>
+                            <field name="field_33"/>
+                            <field name="field_34"/>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_pdv_report" model="ir.actions.act_window">
+        <field name="name">Obrazac P PDV</field>
+        <field name="res_model">account.pdv.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+</odoo>
