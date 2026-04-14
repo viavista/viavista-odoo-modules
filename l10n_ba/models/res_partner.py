@@ -1,20 +1,11 @@
 # Copyright 2026 Viavista d.o.o.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
-
-    l10n_ba_jib = fields.Char(
-        string="JIB",
-        help="Jedinstveni identifikacioni broj (Unique Identification Number)",
-    )
-
-    @api.model
-    def _commercial_fields(self):
-        return super()._commercial_fields() + ["l10n_ba_jib"]
 
     @api.depends("vat", "country_id")
     def _compute_company_registry(self):

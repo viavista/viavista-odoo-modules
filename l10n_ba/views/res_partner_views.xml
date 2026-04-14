@@ -2,19 +2,7 @@
 <!-- Copyright 2026 Viavista d.o.o.
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="view_partner_form_jib" model="ir.ui.view">
-        <field name="name">res.partner.form.l10n_ba.jib</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="priority">50</field>
-        <field name="arch" type="xml">
-            <field name="vat" position="after">
-                <field
-                    name="l10n_ba_jib"
-                    invisible="country_code != 'BA'"
-                    placeholder="JIB"
-                />
-            </field>
-        </field>
-    </record>
+    <!-- Company Registry (JIB) is already shown by the account module.
+         The _compute_company_registry override in res_partner.py
+         auto-fills it from VAT number for BA partners. -->
 </odoo>
