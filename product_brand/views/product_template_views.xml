@@ -20,6 +20,9 @@
             <field name="categ_id" position="after">
                 <field name="brand_id"/>
             </field>
+            <filter name="group_by_categ_id" position="after">
+                <filter string="Brand" name="group_by_brand" context="{'group_by': 'brand_id'}"/>
+            </filter>
         </field>
     </record>
 
