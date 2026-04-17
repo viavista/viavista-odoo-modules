@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* viavista_ui
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-16 18:42+0000\n"
+"PO-Revision-Date: 2026-04-16 18:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: viavista_ui
+#: model_terms:ir.ui.view,arch_db:viavista_ui.product_template_kanban_warehouse_stock
+msgid "<strong>In stock:</strong>"
+msgstr "<strong>Na zalihi:</strong>"
+
+#. module: viavista_ui
+#: model:ir.model.fields,field_description:viavista_ui.field_ir_ui_menu__display_name
+#: model:ir.model.fields,field_description:viavista_ui.field_product_template__display_name
+#: model:ir.model.fields,field_description:viavista_ui.field_res_users__display_name
+msgid "Display Name"
+msgstr "Naziv"
+
+#. module: viavista_ui
+#: model:ir.model.fields,help:viavista_ui.field_res_users__show_stock_per_warehouse
+msgid ""
+"Display per-warehouse stock quantities on product kanban cards instead of "
+"total on-hand quantity."
+msgstr ""
+"Prikazuj količine po skladištu na karticama proizvoda umjesto ukupne "
+"količine na zalihi."
+
+#. module: viavista_ui
+#: model:ir.model.fields,field_description:viavista_ui.field_res_users__hidden_menu_ids
+#: model_terms:ir.ui.view,arch_db:viavista_ui.res_users_view_form_hidden_menus
+msgid "Hidden Menus"
+msgstr "Skriveni izbornici"
+
+#. module: viavista_ui
+#: model:ir.model.fields,field_description:viavista_ui.field_ir_ui_menu__id
+#: model:ir.model.fields,field_description:viavista_ui.field_product_template__id
+#: model:ir.model.fields,field_description:viavista_ui.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: viavista_ui
+#: model:ir.model,name:viavista_ui.model_ir_ui_menu
+#: model_terms:ir.ui.view,arch_db:viavista_ui.res_users_view_form_hidden_menus
+msgid "Menu"
+msgstr "Izbornik"
+
+#. module: viavista_ui
+#: model:ir.model.fields,help:viavista_ui.field_res_users__hidden_menu_ids
+msgid "Menu items hidden for this user. Admin users are not affected."
+msgstr "Stavke izbornika skrivene za ovog korisnika. Admin korisnici nisu pogođeni."
+
+#. module: viavista_ui
+#: model_terms:ir.ui.view,arch_db:viavista_ui.product_template_kanban_warehouse_stock
+msgid "On hand:"
+msgstr "Na zalihi:"
+
+#. module: viavista_ui
+#: model:ir.model,name:viavista_ui.model_product_template
+msgid "Product"
+msgstr "Proizvod"
+
+#. module: viavista_ui
+#: model_terms:ir.ui.view,arch_db:viavista_ui.res_users_view_form_hidden_menus
+msgid ""
+"Select menu items to hide for this user.\n"
+"                            Hiding a parent menu also hides all its children.\n"
+"                            Admin users always see all menus."
+msgstr ""
+"Odaberite stavke izbornika za sakrivanje.\n"
+"                            Skrivanje nadređenog izbornika sakriva i sve podređene.\n"
+"                            Admin korisnici uvijek vide sve izbornike."
+
+#. module: viavista_ui
+#: model:ir.model.fields,field_description:viavista_ui.field_res_users__show_stock_per_warehouse
+msgid "Show Stock per Warehouse"
+msgstr "Prikaži zalihe po skladištu"
+
+#. module: viavista_ui
+#: model:ir.model.fields,field_description:viavista_ui.field_product_product__warehouse_stock_display
+#: model:ir.model.fields,field_description:viavista_ui.field_product_template__warehouse_stock_display
+msgid "Stock per Warehouse"
+msgstr "Zalihe po skladištu"
+
+#. module: viavista_ui
+#: model_terms:ir.ui.view,arch_db:viavista_ui.res_users_view_form_hidden_menus
+msgid "UI"
+msgstr "UI"
+
+#. module: viavista_ui
+#: model:ir.model,name:viavista_ui.model_res_users
+msgid "User"
+msgstr "Korisnik"

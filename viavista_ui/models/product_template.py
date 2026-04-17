@@ -49,7 +49,7 @@ class ProductTemplate(models.Model):
             }
             for tmpl_id, qty in qty_map.items():
                 if qty > 0:
-                    wh_data.setdefault(tmpl_id, []).append((wh.code, qty))
+                    wh_data.setdefault(tmpl_id, []).append((wh.name, qty))
 
         for rec in storable:
             parts = wh_data.get(rec.id)
