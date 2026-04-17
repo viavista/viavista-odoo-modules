@@ -13,11 +13,12 @@
         </field>
     </record>
 
-    <!-- Restrict HR preferences view extension to HR officers only
+    <!-- Disable HR preferences view extension entirely
          (Odoo 19 hr adds many ACL-restricted fields to preferences that break
-         for non-HR users: pin, version_id, resource_calendar_id, ...) -->
+         for non-HR users: pin, version_id, resource_calendar_id, ...
+         HR users manage these via HR → Employees instead) -->
     <record id="hr.res_users_view_form_preferences" model="ir.ui.view">
-        <field name="groups_id" eval="[(6, 0, [ref('hr.group_hr_user')])]"/>
+        <field name="active" eval="False"/>
     </record>
 
     <!-- Admin user form: hidden menus tab -->
