@@ -5,7 +5,8 @@
     'category': 'Sales',
     'author': 'Viavista d.o.o.',
     'website': 'https://www.viavista.ba',
-    'depends': ['product'],
+    'support': 'info@viavista.ba',
+    'depends': ['sale'],
     'data': [
         'security/ir.model.access.csv',
         'views/product_brand_views.xml',
