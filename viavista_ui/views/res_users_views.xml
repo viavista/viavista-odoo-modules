@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- User preferences: stock per warehouse toggle + hide pin for non-HR users -->
+    <!-- User preferences: stock per warehouse toggle -->
     <record id="res_users_view_form_simple_modif" model="ir.ui.view">
         <field name="name">res.users.preferences.viavista.ui</field>
         <field name="model">res.users</field>
@@ -10,6 +10,15 @@
             <xpath expr="//group[@name='other_preferences']" position="inside">
                 <field name="show_stock_per_warehouse"/>
             </xpath>
+        </field>
+    </record>
+
+    <!-- Hide HR pin field from non-HR users on preferences (Odoo core bug) -->
+    <record id="res_users_view_form_preferences_hide_pin" model="ir.ui.view">
+        <field name="name">res.users.preferences.hide.pin.viavista.ui</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="hr.res_users_view_form_preferences"/>
+        <field name="arch" type="xml">
             <xpath expr="//field[@name='pin']" position="attributes">
                 <attribute name="groups">hr.group_hr_user</attribute>
             </xpath>
