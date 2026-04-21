@@ -22,7 +22,7 @@ class ProductProduct(models.Model):
         for rec in self:
             if not rec.brand_id or not rec.display_name:
                 continue
-            brand = rec.brand_id.name
+            brand = rec.brand_id.sudo().name
             if fmt == 'bracket':
                 rec.display_name = f'[{brand}] {rec.display_name}'
             elif fmt == 'dash':

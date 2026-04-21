@@ -1,6 +1,6 @@
 {
     'name': 'Product Brand',
-    'version': '19.0.2.0.1',
+    'version': '19.0.2.0.2',
     'summary': 'Organize products by brand: logos, filters, archive, and optional brand prefix in product names',
     'category': 'Sales',
     'author': 'Viavista d.o.o.',
