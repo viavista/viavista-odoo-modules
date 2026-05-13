@@ -31,7 +31,7 @@ class ProductBrand(models.Model):
             'type': 'ir.actions.act_window',
             'name': self.name,
             'res_model': 'product.template',
-            'view_mode': 'kanban,list,form',
+            'view_mode': 'list,kanban,form',
             'domain': [('brand_id', '=', self.id)],
             'context': {'default_brand_id': self.id},
         }
